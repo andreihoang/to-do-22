@@ -1,0 +1,68 @@
+.myday-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+  bottom: 0;
+
+  .menu-bar {
+    background-color: #27252c;
+    border-top-left-radius: 10px;
+    width: 400px;
+    height: 91.5vh;
+    right: 0;
+    position: fixed;
+    bottom: 0;
+    z-index: 0;
+    opacity: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    .calendar-title {
+      color: white;
+      padding: 20px;
+    }
+
+    .calendar {
+      width: 90%;
+      height: 300px;
+      padding: 10px 10px;
+      margin: 10px;
+
+      border-radius: 10px;
+      background-color: #9e9ea0;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .myday-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+    bottom: 0;
+
+    .menu-bar {
+      background-color: #27252c;
+      border-top-right-radius: 10px;
+      width: 0;
+      height: 91.2vh;
+      right: 0;
+      position: fixed;
+      bottom: 0;
+      z-index: 0;
+      opacity: 90%;
+      .calendar-title {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+}

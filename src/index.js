@@ -1,13 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter} from 'react-router-dom';
+import { TaskProvider } from './context/taskContext';
+import { ImportantProvider } from './context/importantContext';
+import { BgProvider } from './context/bgContext';
+import { UserProvider } from './context/userContext';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+  <BrowserRouter>
+  <BgProvider>
+  <UserProvider>
+   <TaskProvider>
+        <ImportantProvider>
+          <App />
+        </ImportantProvider>
+      </TaskProvider>
+      </UserProvider>    
+  </BgProvider>
+
+  </BrowserRouter>
   </React.StrictMode>
 );
 

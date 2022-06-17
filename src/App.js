@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import Navigation from "./routes/navigation/navigation";
+import { Routes, Route } from "react-router-dom";
+import Myday from "./routes/MyDay/myday";
+import Important from "./routes/Important/important";
+import Home from "./routes/home/home";
 
-function App() {
+import { useContext } from "react";
+import { BgContext } from "./context/bgContext";
+// import NewList from "./routes/newListDropDown/newListDropDown";
+import Authentication from "./routes/authentication/authentication";
+
+const App = () => {
+
+  const {bgImage} = useContext(BgContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="app" style={{ 
+      backgroundImage: `url(${require(`./assets/${bgImage}.jpeg`)})` ,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat'
+     }}>
+    <Routes>
+      <Route path='/' element={<Authentication />} />  
+      <Route path='/todo' element={<Navigation />}>
+        <Route index={true} element={<Home />} />  
+        <Route path='myday' element={<Myday />} />       
+        <Route path='important' element={<Important />} />   
+
+      </Route>
+
+    </Routes>
+</div>
   );
 }
 
