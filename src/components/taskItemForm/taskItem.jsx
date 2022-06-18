@@ -2,16 +2,23 @@ import { useContext, useState } from 'react';
 import { ImportantContext } from '../../context/importantContext';
 import { TaskContext } from '../../context/taskContext';
 
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectTaskReducer } from '../../store/task/task.selector';
+import { setIsToggleCalendar } from '../../store/task/task.action';
+import { renderDueDate } from '../../store/task/task.action';
+import { markComplete } from '../../store/task/task.action';
+import { deleteTask } from '../../store/task/task.action';
 import './taskItem.scss'
 
 
 const TaskItem = ({taskObj}) => {
-
+    const dispatch = useDispatch();
+    const {isToggleCalendar, tasksArray, dueDate} = useSelector(selectTaskReducer)
     const {addToImportantArray} = useContext(ImportantContext);
-    const {isToggleCalendar ,setIsToggleCalendar, renderDueDate, markComplete, deleteTask} = useContext(TaskContext);
+   
     
-    const {task, date, dueDate, isComplete} = taskObj;
-    
+    const {task, date, dueDateTask, isComplete} = taskObj;
 
     const [isHeartFill, setIsHeartFill] = useState(false);
 
@@ -21,16 +28,17 @@ const TaskItem = ({taskObj}) => {
         addToImportantArray(taskObj);
     };
 
-    const handleToggleCalendar = () => setIsToggleCalendar(!isToggleCalendar);
+    const handleToggleCalendar = () => {dispatch(setIsToggleCalendar(!isToggleCalendar))};
+
 
     const handleDueDate = () => {
-       
-        renderDueDate(taskObj)
+        dispatch(renderDueDate(dueDate, tasksArray, taskObj));
+        console.log('duedate ',dueDate);
     };
 
-    const handleMarkComplete = () => markComplete(taskObj);
+    const handleMarkComplete = () => {dispatch(markComplete(tasksArray, taskObj))};
 
-    const handleDeleteTask = () => deleteTask(taskObj);
+    const handleDeleteTask = () => dispatch(deleteTask(tasksArray, taskObj));
 
     return (
     
@@ -56,11 +64,9 @@ const TaskItem = ({taskObj}) => {
                 <div className="date-created">Created At: {date.toDateString()}</div>
 
 
-                <div className='due-date'>Due Date:  
-                    <span onClick={handleToggleCalendar}> {dueDate}</span>
-                </div>
-                
-
+                <div onClick={handleToggleCalendar} className='due-date'>Due Date:  
+                    <span > {dueDateTask}</span>
+                </div>               
 
             </div>
                 <div onClick={handleToggleCalendar}>

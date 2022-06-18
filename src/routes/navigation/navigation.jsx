@@ -50,10 +50,6 @@ const Navigation = () => {
                         <span className='span-important'>Important</span>
                         <span className='count-important'>{importantCount}</span>
                     </Link>
-                    
-
-                    
-                
                 
                 </div>
          

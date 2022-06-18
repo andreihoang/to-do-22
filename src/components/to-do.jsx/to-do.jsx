@@ -1,13 +1,24 @@
 
 import './to-do.scss'
-
-import { useContext } from 'react';
-import { TaskContext } from '../../context/taskContext';
+import { useEffect } from 'react';
 import TaskItem from '../taskItemForm/taskItem';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectTaskReducer } from '../../store/task/task.selector';
+import { setTasksArrayFill } from '../../store/task/task.action';
 
 const ToDo = () => {
+    const dispatch = useDispatch();
+    const {tasksArrayFill, tasksArray, search} = useSelector(selectTaskReducer);
+    
+    useEffect(() => {
+        dispatch(setTasksArrayFill(tasksArray));
+    }, [tasksArray]);
 
-    const {tasksArrayFill} = useContext(TaskContext);
+    useEffect(() => {
+        const filter = tasksArray.filter((task) => task.task.includes(search));
+        dispatch(setTasksArrayFill(filter));
+    }, [search])
 
     return (
         <div className="todo-container">

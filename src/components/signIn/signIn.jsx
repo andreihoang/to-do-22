@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import FormInput from "../form-input/form-input";
 import './signin.scss'
 
-import { useContext } from 'react';
-import { UserContext } from '../../context/userContext';
+
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../store/user/user.action';
 
 const defaultFormFields = {
     email: '',
@@ -17,10 +18,10 @@ const SignIn = () => {
     const navigateHandler = () => {
         navigate('/todo');
     }
-
+    const dispatch = useDispatch();
     const [formField, setFormField] =useState(defaultFormFields);
     const {email, password} = formField;
-    const {setCurrentUser} = useContext(UserContext);
+    
      
     const reset = () => setFormField(defaultFormFields); 
 
@@ -31,8 +32,8 @@ const SignIn = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        setCurrentUser(formField);
-        reset()
+        dispatch(setCurrentUser(formField));
+        navigateHandler()
     }
 
 

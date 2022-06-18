@@ -4,27 +4,30 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter} from 'react-router-dom';
-import { TaskProvider } from './context/taskContext';
+
 import { ImportantProvider } from './context/importantContext';
 import { BgProvider } from './context/bgContext';
-import { UserProvider } from './context/userContext';
+
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-  <BrowserRouter>
-  <BgProvider>
-  <UserProvider>
-   <TaskProvider>
-        <ImportantProvider>
-          <App />
-        </ImportantProvider>
-      </TaskProvider>
-      </UserProvider>    
-  </BgProvider>
-
-  </BrowserRouter>
+  <Provider store ={store}>
+    <BrowserRouter>
+      <BgProvider>
+  
+      
+            <ImportantProvider>
+              <App />
+            </ImportantProvider>
+   
+      
+      </BgProvider>
+    </BrowserRouter>
+  </Provider>
   </React.StrictMode>
 );
 
