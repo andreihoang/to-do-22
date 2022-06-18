@@ -47,7 +47,7 @@ const DropDown = () => {
             <div className='bg-container'>
 
                 {background.map((bg) => (
-                    <BgImage bg={bg} />
+                    <BgImage key={bg.backgroundId} bg={bg} />
                 ))}
             </div>
                     

@@ -1,12 +1,15 @@
-import { useContext } from "react"
-import { TaskContext } from "../context/taskContext"
+
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { searchField } from "../store/task/task.action";
+import { selectTaskReducer } from "../store/task/task.selector";
 
 const SearchBox = () => {
-    
-    const {searchField, search} = useContext(TaskContext);
+    const dispatch = useDispatch();
+    const {search} = useSelector(selectTaskReducer)
 
     const onChangeHandler = (e) => {
-        searchField(e.target.value)
+        dispatch(searchField(e.target.value))
     }
 
     return (

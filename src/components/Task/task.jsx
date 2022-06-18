@@ -1,26 +1,23 @@
 import { useState } from 'react';
-import { useContext } from 'react';
-import { TaskContext } from '../../context/taskContext';
 
-import Calendar from 'react-calendar'; 
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { addTaskItemToArray } from '../../store/task/task.action';
+import { selectTaskReducer } from '../../store/task/task.selector';
 
 import './task.scss'
 
 
 const Task = () => {
+    const [taskItem, setTaskItem] = useState('');
+    const dispatch = useDispatch();
+    const {tasksArray} = useSelector(selectTaskReducer);
 
-    const {
-        taskItem ,
-        setTaskItem, 
-        addTaskItemToArray,
-        
-    } = useContext(TaskContext);
-   
   
-    const handdleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        addTaskItemToArray();
-       
+        dispatch(addTaskItemToArray(tasksArray, taskItem));
+        setTaskItem('');
     }
 
     const handleChange = (event) => {
@@ -28,8 +25,8 @@ const Task = () => {
     }
 
     return (
-        <form onSubmit={handdleSubmit} className="task" autoComplete="off">
-            <span onClick={() => addTaskItemToArray()} className='add-todo'>+</span>
+        <form onSubmit={handleSubmit} className="task" autoComplete="off">
+            <span  className='add-todo'>+</span>
             <input className="input" type='text' placeholder="Add a Task" name='task' value={taskItem} onChange={handleChange}/>
         </form>
     )
