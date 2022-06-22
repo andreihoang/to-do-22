@@ -30,15 +30,10 @@ const App = () => {
     
   }, []);
 
-  useEffect(() => {
-    const bg = localStorage.getItem("bg");
-    dispatch(setBgImage(bg))
-  }, []);
-
+  
 
   return (
     <div className="app" style={{ 
-      backgroundImage: `url(${require(`./assets/${bgImage}.jpeg`)})` ,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat'
