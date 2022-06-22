@@ -2,6 +2,9 @@
 import {createAction }from '../../utils/reducer.utils';
 import {TASK_ACTION_TYPES} from './task.type';
 
+export const fetchTaskArray = (taskData) => {
+    return createAction(TASK_ACTION_TYPES.SET_TASK_ARRAY, taskData);
+} 
 
 export const setIsToggleCalendar = (bool) => {
     return createAction(TASK_ACTION_TYPES.SET_IS_TOGGLE_CALENDAR, bool)
@@ -19,45 +22,52 @@ export const setTasksArrayFill = (tasksArray) => {
     return createAction(TASK_ACTION_TYPES.SET_TASK_FILL, tasksArray)
 }
 
-let taskId = 0;
+
 const addTaskItemHelper = (tasksArray, taskItem) => {
 
     if (taskItem === '' || taskItem === null) {
         return tasksArray
     } else {
 
-        return [...tasksArray, 
-            {
-                task: taskItem, 
-                taskId: taskId++, 
-                date: new Date(), 
-                dueDateTask: null,
-                isComplete: false,
-            }
-        ]
+        return [...tasksArray,  {...taskItem, date: taskItem.date}]
     }
 
 }
 
-const renderDueDateHelper = (date, tasksArray, targetTaskItem) => {
-    const existingItem = tasksArray.find((task) => task.taskId === targetTaskItem.taskId);
+const renderDueDateHelper = (tasksArray, targetTaskItem) => {
+    const existingItem = tasksArray.find((task) => task.taskid === targetTaskItem.taskid);
     if (existingItem) {
-        return tasksArray.map((task) => task.taskId === targetTaskItem.taskId ? {...task, dueDateTask: date.toDateString()} : task)
+        return tasksArray.map((task) => task.taskid === targetTaskItem.taskid ? {...task, duedate: targetTaskItem.duedate} : task)
     }
     return false;
 }
 
 const isCompleteHelper = (tasksArray, targetTaskItem) => {
-    const existingItem = tasksArray.find((task) => task.taskId === targetTaskItem.taskId);
+    const existingItem = tasksArray.find((task) => task.taskid === targetTaskItem.taskid);
 
     if (existingItem) {
-        return tasksArray.map((task) => task.taskId === targetTaskItem.taskId ? {...task, isComplete: !task.isComplete} : task)
+        return tasksArray.map((task) => task.taskid === targetTaskItem.taskid ? {...task, iscomplete: targetTaskItem.iscomplete} : task)
     }
     return false;
 }
 
+const fillHeartHelper = (tasksArray, taskItemTarget) => {
+    const existingTask = tasksArray.find((task) => task.taskid === taskItemTarget.taskid);
+
+    if (existingTask) {
+        return tasksArray.map(task => task.taskid === taskItemTarget.taskid ? {...task, isheartfill: taskItemTarget.isheartfill} : task)
+    } 
+    return false;
+    
+}
+
+export const setIsHeartFill = (tasksArray, taskItemTarget) => {
+    const newTaskArray = fillHeartHelper(tasksArray, taskItemTarget)
+    return  createAction(TASK_ACTION_TYPES.SET_TASK_ARRAY, newTaskArray)
+}
+
 const deleteTaskHelper = (tasksArray, targetTaskItem) => {
-    return tasksArray.filter(task => task.taskId !== targetTaskItem.taskId); 
+    return tasksArray.filter(task => task.taskid !== targetTaskItem.taskid); 
 }
 
 

@@ -10,11 +10,19 @@
   margin: 10px;
   opacity: 80%;
   border-radius: 10px;
-  width: 88%;
+  width: 85%;
   text-align: center;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     opacity: 50%;
     // color: #000;
+  }
+  .menu-bars {
+    display: flex;
+    flex-direction: column;
   }
 }

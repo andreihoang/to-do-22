@@ -1,18 +1,8 @@
 
-
-import { useContext, useState } from 'react';
-import { ImportantContext } from '../../context/importantContext';
-
-
-
-
 const TaskImportantItem = ({taskObj}) => {
-
-    const {clearImportantItem} = useContext(ImportantContext);
     
-    const {task, date, dueDate, isComplete} = taskObj;
-
-    const handleClearImportantItem = () => clearImportantItem(taskObj)
+    const {task, date, duedate, iscomplete} = taskObj;
+    const _date = new Date(date).toDateString()
     
 
     return (
@@ -21,7 +11,7 @@ const TaskImportantItem = ({taskObj}) => {
             <div className='taskItem-body'>
 
                 <span className='complete-icon'>
-                    <i className="fa fa-circle"></i>
+                    <i  className={`${iscomplete ? 'fa fa-circle filled' : 'fa fa-circle'}`}></i>
                 </span>
                 <button className='button-task-container'>
                     <span className='task-word'>
@@ -29,17 +19,17 @@ const TaskImportantItem = ({taskObj}) => {
                     </span>
                 </button>
                 <div className='mark-important'>
-                    <span onClick={handleClearImportantItem}>
+                    <span >
                         <i className='fa fa-heart fill'></i>
                     </span>
                 </div>
 
-                {/* <div className="date-created">Created At: {date.toDateString()}</div>
+                <div className="date-created">Created At: {_date}</div>
 
 
                 <div className='due-date'>Due Date:  
-                    <span>{dueDate}</span>
-                </div> */}
+                    <span>{duedate}</span>
+                </div>
             </div>
         
         </div>

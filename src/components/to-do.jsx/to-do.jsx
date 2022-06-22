@@ -23,7 +23,7 @@ const ToDo = () => {
     return (
         <div className="todo-container">
             {tasksArrayFill.map((taskObj) => (
-                <TaskItem key={taskObj.taskId} taskObj={taskObj}/>
+                <TaskItem key={taskObj.taskid} taskObj={taskObj}/>
             ))}
         </div>
     )
