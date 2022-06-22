@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../store/user/user.action";
+import { httpSignUp } from "../../httpRequest/request";
+
+import { signUpStart } from "../../store/user/user.action";
 
 const defaultFormFields = {
     displayName: '',
@@ -15,23 +18,26 @@ const defaultFormFields = {
 const SignUp = () => {
     const navigate = useNavigate();
     const navigateHandler = () => {
-        navigate('/todo');
+        navigate('/');
     }
     const dispatch = useDispatch();
     const [formField, setFormField] =useState(defaultFormFields);
     const {displayName, email, password, confirmedPassword} = formField;
-     
-    const reset = () => setFormField(defaultFormFields); 
+
 
     const onChangeHandler = (event) => {
         const {name, value} = event.target;
         setFormField({...formField, [name]: value})
     }
 
-    const onSubmitHandler = (e) => {
+    const onSubmitHandler = async (e) => {
         e.preventDefault();
-        dispatch(setCurrentUser(formField)); 
-        navigateHandler();     
+        if (password === confirmedPassword) {
+            dispatch(signUpStart(displayName, email, password));
+        } else {
+            alert('Password Not Match')
+        }
+
     }
 
     return (

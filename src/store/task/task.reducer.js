@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 
 export const taskReducer = (state=INITIAL_STATE, action={}) => {
     const {type, payload} = action;
-    console.log(action)
+   
     switch(type) {
         case TASK_ACTION_TYPES.SET_TASK_ARRAY:
             return {

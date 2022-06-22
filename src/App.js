@@ -3,31 +3,61 @@ import { Routes, Route } from "react-router-dom";
 import Myday from "./routes/MyDay/myday";
 import Important from "./routes/Important/important";
 import Home from "./routes/home/home";
-
-import { useContext } from "react";
-import { BgContext } from "./context/bgContext";
-// import NewList from "./routes/newListDropDown/newListDropDown";
 import Authentication from "./routes/authentication/authentication";
 
-const App = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { selectBgImage } from "./store/bgImage/bg.selector";
+import { selectCurrentUser } from "./store/user/user.selector";
+import { setCurrentUser } from "./store/user/user.action";
+import { useEffect } from "react";
+import { setBgImage } from "./store/bgImage/bg.action";
+import { checkUserSession } from "./store/user/user.action";
 
-  const {bgImage} = useContext(BgContext);
+const App = () => {
+  const {bgImage} = useSelector(selectBgImage);
+  const user = useSelector(selectCurrentUser);
+  const {id} = user;
+  const dispatch = useDispatch();
+
+  // persist user on web page
+  useEffect(() => {
+    
+      const loggedInUser = localStorage.getItem("user");
+      if (loggedInUser) {
+        const foundUser = JSON.parse(loggedInUser);
+        dispatch(checkUserSession(foundUser));
+       }
+    
+  }, []);
+
+  
 
   return (
     <div className="app" style={{ 
-      backgroundImage: `url(${require(`./assets/${bgImage}.jpeg`)})` ,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat'
      }}>
     <Routes>
-      <Route path='/' element={<Authentication />} />  
-      <Route path='/todo' element={<Navigation />}>
-        <Route index={true} element={<Home />} />  
-        <Route path='myday' element={<Myday />} />       
-        <Route path='important' element={<Important />} />   
-
-      </Route>
+    {id ?
+      (<>
+        <Route path='/' element={<Navigation />} >
+          <Route index={true} element={<Home />} />
+      
+          <Route path='myday' element={<Myday />} />       
+          <Route path='important' element={<Important />} />
+        
+            
+          </Route>
+       </>) 
+        :  (
+          <>
+          <Route path='/' element={<Authentication />}/>
+          <Route path='myday' element={<Home />} />       
+          <Route path='important' element={<Home />} />
+          </>
+         )  
+      }
 
     </Routes>
 </div>

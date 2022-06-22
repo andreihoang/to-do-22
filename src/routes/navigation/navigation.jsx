@@ -3,18 +3,30 @@ import * as FaIcons from "react-icons/fa";
 import { Link, Outlet } from 'react-router-dom';
 import DropDown from '../../components/dropdown/dropDown';
 import { ReactComponent as SunLogo } from '../../assets/sun.svg';
-import { useContext } from 'react';
-import { ImportantContext } from '../../context/importantContext';
 
+import { selectImportantTask } from '../../store/important/important.selector';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../store/user/user.selector';
 import SearchBox from '../../search-box/ search';
+import { signOutStart } from '../../store/user/user.action';
+import { useDispatch } from 'react-redux';
 
 import { useState } from 'react';
 
 const Navigation = () => {
     
     const [isOpen, setIsOpen] = useState(false);
-    const {importantCount} = useContext(ImportantContext);
-   
+    const {importantArray }= useSelector(selectImportantTask); 
+    const importantCount = importantArray.length;
+    
+    const dispatch = useDispatch();
+
+    const {id}= useSelector(selectImportantTask); 
+  
+    const signOutHandler = () => {
+        dispatch(signOutStart());
+        localStorage.removeItem('user');
+    };
 
     const toogleDropDown = () => setIsOpen(!isOpen);
 
@@ -31,8 +43,10 @@ const Navigation = () => {
                     <SearchBox />
                 <div className='menu-bars'>
                         <FaIcons.FaBars className='icon'  onClick={ toogleDropDown }/>
-                        <Link to="/" className='Sign-in'>SIGN IN</Link>
-                </div>
+                        {id ?? 
+                            (<Link to="/" className='Sign-in' onClick={signOutHandler}>SIGN OUT</Link>) 
+                        }
+                        
                     
                 {isOpen && <DropDown />}
                 </div>
@@ -53,6 +67,7 @@ const Navigation = () => {
                 
                 </div>
          
+        </div>
             <Outlet />
         </div>
         </>

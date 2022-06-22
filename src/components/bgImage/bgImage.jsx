@@ -1,11 +1,17 @@
-import { useContext } from "react";
-import { BgContext } from "../../context/bgContext";
+
+import { useDispatch } from "react-redux";
+
+import { setBgImage } from "../../store/bgImage/bg.action";
 
 const BgImage = ({bg}) => {
 
-    const {bgImage, setBgImage} = useContext(BgContext);
+    const dispatch = useDispatch();
+    
 
-    const handleBgChange = () => setBgImage(bg.backgroundId)
+    const handleBgChange = () => {
+        dispatch(setBgImage(bg.backgroundId))
+        localStorage.setItem('bg', bg.backgroundId);
+    };
 
     return (
         <img 
