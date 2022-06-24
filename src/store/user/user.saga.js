@@ -25,7 +25,6 @@ export function* isUserAuthenticated({payload: {user}}) {
 export function* signInWithEmail({payload: {email, password}}) {
     try {
         const user = yield call(httpSignIn, email, password);
-        console.log(user)
         yield put(signInSuccess(user));
       } catch(error) {
         yield put(signInFailed(error))
