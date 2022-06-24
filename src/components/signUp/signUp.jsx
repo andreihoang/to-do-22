@@ -23,6 +23,7 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const [formField, setFormField] =useState(defaultFormFields);
     const {displayName, email, password, confirmedPassword} = formField;
+  
 
 
     const onChangeHandler = (event) => {
